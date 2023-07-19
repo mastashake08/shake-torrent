@@ -1,0 +1,10 @@
+{
+  "name": "Shake Torrent",
+  "description": "Torrent file sharing tool.",
+  "version": "1.0",
+  "manifest_version": 3,
+  "action": {
+    "default_title": "Click to torrent a file",
+    "default_popup": "index.html"
+  }
+}
