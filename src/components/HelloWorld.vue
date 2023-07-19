@@ -10,8 +10,8 @@
     </div>
     <div class="downloader">
       <p>Download torrent</p>
-      <input type="text" v-model="magnet">
-      <button class="btn" @click="download">Download File</button>
+      <t-input type="text" v-model="magnet"/>
+      <t-button  classes="['block', 'px-4', 'py-2', 'transition', 'duration-100']" @click="download">Download File</t-button>
     </div>
   </div>
 </template>
@@ -36,6 +36,10 @@ export default {
     this.client.on('seed', (torrent) => {
       this.seededTorrent = torrent
     })
+    //this.registerHandler()
+  },
+  mounted () {
+    this.getParams()
   },
   methods: {
     seed (args) {
@@ -47,6 +51,7 @@ export default {
       this.client.add(this.magnet, (torrent) => {
         torrent.on('download', function () {
           this.downloadProgress = torrent.progress
+          console.log('downloading')
         })
         torrent.files.forEach(function (file) {
         file.appendTo('body')
@@ -63,7 +68,20 @@ export default {
       } catch(e) {
         console.log(e)
       }
-    }
+    },
+    registerHandler () {
+      const current_root =  this.getHashParamsFromUrl()
+      navigator.registerProtocolHandler('magnet', '%s='+current_root,
+        'Shake Torrent magnet handler');
+    },
+    getParams () {
+      this.magnet = this.getHashParamsFromUrl()
+
+    },
+    getHashParamsFromUrl() {
+    const hashString = location.hash ? location.hash.replace(/^#/, '') : '';
+      return (hashString.length > 0) ? window.location.hash.substr(1) : '';
+  }
   }
 }
 </script>
