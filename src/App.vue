@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
-    <HelloWorld msg="Shake Torrent - WebTorrent Extension"/>
+    <img alt="Shake Torrent logo" src="./assets/cover.png" width="500" height="200">
+    <HelloWorld msg="Shake Torrent - WebTorrent File Viewer"/>
   </div>
 </template>
 

@@ -1,15 +1,12 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
-    <p>
-      WebTorrent downloader and viewer
-    </p>
     <div class="seeder">
-      <button v-if="seededTorrent.magnetURI" @click="share">Share seeded file</button>
-      <input type="file" class="btn" @change="seed">Seed File
+      <t-button v-if="seededTorrent.magnetURI" @click="share">Share seeded file</t-button>
+      <t-input type="file" class="btn" @change="seed"> Seed File
     </div>
+    <hr/>
     <div class="downloader">
-      <p>Download torrent</p>
       <t-input type="text" v-model="magnet"/>
       <t-button  classes="['block', 'px-4', 'py-2', 'transition', 'duration-100']" @click="download">Download File</t-button>
     </div>
