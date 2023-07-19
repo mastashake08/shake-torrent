@@ -4,10 +4,10 @@
     <p>
       WebTorrent downloader and viewer
     </p>
-    <!-- <div class="seeder">
-      <p>Seeded file - {{seededTorrent.magnetURI}}</p>
+    <div class="seeder">
+      <button v-if="seededTorrent.magnetURI" @click="share">Share seeded file</button>
       <input type="file" class="btn" @change="seed">Seed File
-    </div> -->
+    </div>
     <div class="downloader">
       <p>Download torrent</p>
       <input type="text" v-model="magnet">
@@ -55,6 +55,14 @@ export default {
       // Display the file by adding it to the DOM. Supports video, audio, image, etc. files
 
       })
+    },
+    async share () {
+      try {
+        await navigator.clipboard.writeText(this.seededTorrent.magnetURI)
+        alert('Magnet URI written to your clipboard')
+      } catch(e) {
+        console.log(e)
+      }
     }
   }
 }
