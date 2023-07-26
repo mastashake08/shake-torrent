@@ -5,7 +5,8 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "deploy": "sh scripts/gh-pages-deploy.sh"
   },
   "dependencies": {
     "browser-fs-access": "^0.34.1",
