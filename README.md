@@ -24,6 +24,9 @@ npm run lint
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
+## Install the .crx extension directly
+Double click on the dist.crx file to install it directly into Chrome to use without building.
+
 # Free Torrents
 
 This is a list of public domain and Creative Commons torrents, useful for testing
