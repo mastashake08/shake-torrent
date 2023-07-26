@@ -130,14 +130,13 @@ export default {
         const data = {
           torrent: this.magnet
         }
-        console.log(data)
         const res = await fetch('http://localhost:3000/add', {
-      method: "POST", // or 'PUT'
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
+          method: "POST", // or 'PUT'
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
     const result = await res.json()
     this.magnet = result.magnetUri
     this.client.add(this.magnet, {
