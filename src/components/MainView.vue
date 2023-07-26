@@ -124,35 +124,80 @@ export default {
 
 
     },
-    download () {
+    async download () {
       const that = this
-      this.client.add(this.magnet, {
-        announce: ['wss://tracker.openwebtorrent.com','wss://tracker.btorrent.xyz','wss://tracker.webtorrent.dev', 'wss://tracker.novage.com.ua', 'wss://peertube2.cpy.re/tracker/socket']
-      }, (torrent) => {
-        that.torrents.push(torrent)
-        that.downloading = true
-        that.downloaded = false
-        torrent.on('download', function () {
-          that.downloadProgress = torrent.progress * 100
-          that.numPeers = torrent.numPeers
+      try {
+        const data = {
+          torrent: this.magnet
+        }
+        console.log(data)
+        const res = await fetch('http://localhost:3000/add', {
+      method: "POST", // or 'PUT'
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    const result = await res.json()
+    this.magnet = result.magnetUri
+    this.client.add(this.magnet, {
+      announce: ['wss://tracker.openwebtorrent.com','wss://tracker.btorrent.xyz','wss://tracker.webtorrent.dev', 'wss://tracker.novage.com.ua', 'wss://peertube2.cpy.re/tracker/socket']
+    }, (torrent) => {
+      that.torrents.push(torrent)
+      that.downloading = true
+      that.downloaded = false
+      torrent.on('download', function () {
+        that.downloadProgress = torrent.progress * 100
+        that.numPeers = torrent.numPeers
 
-        })
-        torrent.on('done', async function (){
-          torrent.zip = new JSZip();
-          await torrent.files.forEach(async file => {
-            await file.getBlob(async (err, blob) => {
-              await torrent.zip.file(file.name, blob);
-              })
-            })
-
-        torrent.files.forEach(torrent => {
-          that.torrentFiles.push(torrent)
-        })
-
-        that.downloading = false
-        that.downloaded = true
-        })
       })
+      torrent.on('done', async function (){
+        torrent.zip = new JSZip();
+        await torrent.files.forEach(async file => {
+          await file.getBlob(async (err, blob) => {
+            await torrent.zip.file(file.name, blob);
+            })
+          })
+
+      torrent.files.forEach(torrent => {
+        that.torrentFiles.push(torrent)
+      })
+
+      that.downloading = false
+      that.downloaded = true
+      })
+    })
+  } catch (e) {
+        console.log(e)
+        this.client.add(this.magnet, {
+          announce: ['wss://tracker.openwebtorrent.com','wss://tracker.btorrent.xyz','wss://tracker.webtorrent.dev', 'wss://tracker.novage.com.ua', 'wss://peertube2.cpy.re/tracker/socket']
+        }, (torrent) => {
+          that.torrents.push(torrent)
+          that.downloading = true
+          that.downloaded = false
+          torrent.on('download', function () {
+            that.downloadProgress = torrent.progress * 100
+            that.numPeers = torrent.numPeers
+
+          })
+          torrent.on('done', async function (){
+            torrent.zip = new JSZip();
+            await torrent.files.forEach(async file => {
+              await file.getBlob(async (err, blob) => {
+                await torrent.zip.file(file.name, blob);
+                })
+              })
+
+          torrent.files.forEach(torrent => {
+            that.torrentFiles.push(torrent)
+          })
+
+          that.downloading = false
+          that.downloaded = true
+          })
+        })
+      }
+
     },
     async downloadZip(torrent) {
       try {
