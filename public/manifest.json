@@ -1,7 +1,7 @@
 {
   "name": "Shake Torrent",
-  "description": "Torrent file sharing tool.",
-  "version": "1.1.0",
+  "description": "Torrent file sharing tool. View files, seed files, download files.",
+  "version": "1.2.0",
   "manifest_version": 3,
   "action": {
     "default_title": "Click to torrent a file",
