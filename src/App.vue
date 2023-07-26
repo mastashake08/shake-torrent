@@ -1,17 +1,17 @@
 <template>
   <div id="app">
     <img alt="Shake Torrent logo" src="./assets/cover.png" width="500" height="200">
-    <HelloWorld msg="Shake Torrent - WebTorrent File Viewer"/>
+    <MainView msg="Shake Torrent - WebTorrent File Viewer"/>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import MainView from './components/MainView.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    MainView
   }
 }
 </script>
