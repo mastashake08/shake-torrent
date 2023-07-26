@@ -27,6 +27,15 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 ## Install the .crx extension directly
 Double click on the dist.crx file to install it directly into Chrome to use without building.
 
+## Build a CRX file
+```
+npm run pack-extension
+```
+If on Mac
+```
+npm run pack-extension-mac
+```
+
 # Free Torrents
 
 This is a list of public domain and Creative Commons torrents, useful for testing
