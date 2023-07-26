@@ -44,7 +44,7 @@
           </div>
             <div class="panel" >
               <ol>
-                <li v-for="(file, index) in t.files" :key="index" @click="preview(file)"><a href="#">{{file.name}}</a></li>
+                <li :id="file.name" v-for="(file, index) in t.files" :key="index" @click="preview(file)"><a href="#">{{file.name}}</a></li>
               </ol>
             </div>
           </div>
@@ -96,7 +96,7 @@ export default {
       this.torrents.splice(index,1)
     },
     preview(item) {
-      item.appendTo('body')
+      item.appendTo('#'+item.name)
     },
     millisToMinutesAndSeconds(millis) {
         var minutes = Math.floor(millis / 60000);
@@ -237,5 +237,10 @@ a {
   background-color: white;
   display: none;
   overflow: hidden;
+}
+
+img, video {
+  width: 100%;
+  height: auto;
 }
 </style>
