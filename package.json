@@ -10,6 +10,7 @@
   "dependencies": {
     "browser-fs-access": "^0.34.1",
     "core-js": "^3.6.5",
+    "end-of-stream": "^1.4.1",
     "file-saver": "^2.0.5",
     "jszip": "^3.10.1",
     "vue": "^2.6.11",

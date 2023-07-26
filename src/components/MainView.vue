@@ -4,6 +4,22 @@
     <div class="seeder">
       <t-button v-if="seededTorrent.magnetURI" @click="share">Share seeded file</t-button>
       <t-input type="file" class="btn" @change="seed"> Seed File</t-input>
+      <div class="files" v-if="seededTorrent.magnetURI">
+        <div class="accordion" >{{seededTorrent.name}}
+            <br>
+            <label> <b>Num. of peers {{seededTorrent.numPeers}} </b></label>
+            <br>
+
+            <div class="button-actions">
+              <button @click="toggle">Toggle File List</button>
+            </div>
+        </div>
+          <div class="panel" >
+            <ol>
+              <li v-for="(file, index) in seededTorrent.files" :key="index" @click="preview(file)"><a href="#">{{file.name}}</a></li>
+            </ol>
+          </div>
+        </div>
     </div>
     <hr/>
     <div class="downloader">
@@ -90,9 +106,10 @@ export default {
     seed (args) {
       try {
         const file = args.target.files[0]
-      this.client.seed(file, function (torrent) {
+        const that = this
+      that.client.seed(file, function (torrent) {
       console.log('Client is seeding ' + torrent.magnetURI)
-      this.seededTorrent = torrent
+      that.seededTorrent = torrent
     })} catch(e) {
 
         console.log(e.message)
@@ -102,7 +119,9 @@ export default {
     },
     download () {
       const that = this
-      this.client.add(this.magnet, (torrent) => {
+      this.client.add(this.magnet, {
+        announce: ['wss://tracker.openwebtorrent.com','wss://tracker.btorrent.xyz','wss://tracker.webtorrent.dev', 'wss://tracker.novage.com.ua', 'wss://peertube2.cpy.re/tracker/socket']
+      }, (torrent) => {
         that.torrents.push(torrent)
         that.downloading = true
         that.downloaded = false
