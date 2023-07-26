@@ -13,4 +13,4 @@ npm run build
 
     git checkout -f main
     git branch -D chrome-build
-    echo "Successfully packaged, check your settings"
+    chrome dist.crx
