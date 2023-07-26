@@ -1,3 +1,4 @@
+alias chrome="/Applications/Google\\ \\Chrome.app/Contents/MacOS/Google\\ \\Chrome"
 git checkout --orphan chrome-build
     #eslint-disable-next-line no-console
 echo "Building started..."
