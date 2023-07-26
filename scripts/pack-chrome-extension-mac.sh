@@ -9,7 +9,7 @@ npm run build
     openssl genrsa -out privkey.pem 768
     openssl pkcs8 -topk8 -nocrypt -in privkey.pem -out privkey2.pem
     chrome --pack-extension=dist \
-             --pack-extension-key=privkey2.pem
+             --pack-extension-key=${1:-privkey2.pem}
 
     git checkout -f main
     git branch -D chrome-build

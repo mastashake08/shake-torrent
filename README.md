@@ -29,11 +29,11 @@ Double click on the dist.crx file to install it directly into Chrome to use with
 
 ## Build a CRX file
 ```
-npm run pack-extension
+npm run pack-extension {.pem file optional}
 ```
 If on Mac
 ```
-npm run pack-extension-mac
+npm run pack-extension-mac {.pem file optional}
 ```
 
 # Free Torrents
