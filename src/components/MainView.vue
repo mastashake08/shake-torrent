@@ -16,7 +16,7 @@
         </div>
           <div class="panel" >
             <ol>
-              <li v-for="(file, index) in seededTorrent.files" :key="index" @click="preview(file)"><a href="#">{{file.name}}</a></li>
+              <li v-for="(file, index) in seededTorrent.files" :key="index" :id="file.name" @click="preview(file)"><a href="#">{{file.name}}</a></li>
             </ol>
           </div>
         </div>
@@ -42,9 +42,9 @@
 
               </div>
           </div>
-            <div class="panel" >
+            <div class="panel" :id="t.infoHash">
               <ol>
-                <li :id="file.name" v-for="(file, index) in t.files" :key="index" @click="preview(file)"><a href="#">{{file.name}}</a></li>
+                <li :id="file.length" v-for="(file, index) in t.files" :key="index" @click="preview(file, t)"><a href="#">{{file.name}}</a></li>
               </ol>
             </div>
           </div>
@@ -95,8 +95,15 @@ export default {
       this.torrents[index].destroy()
       this.torrents.splice(index,1)
     },
-    preview(item) {
-      item.appendTo('#'+item.name)
+    preview(item, t) {
+
+      const elem = document.getElementById(t.infoHash)
+      const li = document.getElementById(item.length)
+      if(li.classList.contains('disabled') == false) {
+        item.appendTo(elem)
+        li.classList.add('disabled')
+      }
+
     },
     millisToMinutesAndSeconds(millis) {
         var minutes = Math.floor(millis / 60000);
@@ -240,7 +247,7 @@ a {
 }
 
 img, video {
-  width: 100%;
-  height: auto;
+  width: 250px;
+  height: 250px;
 }
 </style>
