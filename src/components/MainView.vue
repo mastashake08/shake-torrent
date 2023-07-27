@@ -1,3 +1,4 @@
+
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
@@ -114,7 +115,6 @@ export default {
         const file = args.target.files[0]
         const that = this
       that.client.seed(file, function (torrent) {
-      console.log('Client is seeding ' + torrent.magnetURI)
       that.seededTorrent = torrent
     })} catch(e) {
 
@@ -137,13 +137,10 @@ export default {
           body: JSON.stringify(data),
         });
     const result = await res.json()
-    console.log(result)
     this.magnet = result.magnetUri
-    console.log(this.magnet)
     this.client.add(this.magnet, {
       announce: ['wss://tracker.openwebtorrent.com','wss://tracker.btorrent.xyz','wss://tracker.webtorrent.dev']
     }, (torrent) => {
-      console.log(torrent)
       that.torrents.push(torrent)
       that.downloading = true
       that.downloaded = false
@@ -153,18 +150,18 @@ export default {
 
       })
       torrent.on('done', async function (){
+        chrome.notifications.create({
+          title: `${torrent.name} Downloaded!`,
+          message: 'Enjoy your torrent!',
+          iconUrl: '/image/shake-48.png',
+          type: 'basic'
+        })
         torrent.zip = new JSZip();
         await torrent.files.forEach(async file => {
           await file.getBlob(async (err, blob) => {
             await torrent.zip.file(file.name, blob);
             })
           })
-          chrome.notifications.create(
-
-          options: {
-          message: `${torrent.name} downloaded!`}
-        )
-
       torrent.files.forEach(torrent => {
         that.torrentFiles.push(torrent)
       })
@@ -173,8 +170,7 @@ export default {
       that.downloaded = true
       })
     })
-  } catch (e) {
-        console.log(e)
+  } catch {
         this.client.add(this.magnet, {
           announce: ['wss://tracker.openwebtorrent.com','wss://tracker.btorrent.xyz','wss://tracker.webtorrent.dev']
         }, (torrent) => {
@@ -229,7 +225,7 @@ export default {
       }
     },
     async share () {
-      const url = `${window.location.host}#${this.seededTorrent.magnetURI}`
+      const url = this.seededTorrent.magnetURI
       try {
         await navigator.share(url)
       } catch {
