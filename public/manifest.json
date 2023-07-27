@@ -12,5 +12,15 @@
     "32": "image/shake-32.png",
     "48": "image/shake-48.png",
     "128": "image/shake-128.png"
-  }
+  },
+  "background": {
+    "service_worker": "sw.js"
+  },
+  "_execute_action": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+5"
+      },
+      "description": "Toggle side panel",
+      "global": true
+    }
 }
