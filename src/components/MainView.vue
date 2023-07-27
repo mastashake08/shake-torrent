@@ -88,7 +88,6 @@ export default {
   },
   mounted () {
     this.getParams()
-
   },
   methods: {
     destroyTorrent(index) {
@@ -138,10 +137,13 @@ export default {
           body: JSON.stringify(data),
         });
     const result = await res.json()
+    console.log(result)
     this.magnet = result.magnetUri
+    console.log(this.magnet)
     this.client.add(this.magnet, {
-      announce: ['wss://tracker.openwebtorrent.com','wss://tracker.btorrent.xyz','wss://tracker.webtorrent.dev', 'wss://tracker.novage.com.ua', 'wss://peertube2.cpy.re/tracker/socket']
+      announce: ['wss://tracker.openwebtorrent.com','wss://tracker.btorrent.xyz','wss://tracker.webtorrent.dev']
     }, (torrent) => {
+      console.log(torrent)
       that.torrents.push(torrent)
       that.downloading = true
       that.downloaded = false
@@ -169,7 +171,7 @@ export default {
   } catch (e) {
         console.log(e)
         this.client.add(this.magnet, {
-          announce: ['wss://tracker.openwebtorrent.com','wss://tracker.btorrent.xyz','wss://tracker.webtorrent.dev', 'wss://tracker.novage.com.ua', 'wss://peertube2.cpy.re/tracker/socket']
+          announce: ['wss://tracker.openwebtorrent.com','wss://tracker.btorrent.xyz','wss://tracker.webtorrent.dev']
         }, (torrent) => {
           that.torrents.push(torrent)
           that.downloading = true
@@ -204,8 +206,6 @@ export default {
 
           torrent.zip.generateAsync({type:"blob"})
           .then(function(content) {
-              // see FileSaver.js
-              console.log('content', content)
               saveAs(content, torrent.name + '.zip');
               that.zip = {}
           });
@@ -224,11 +224,12 @@ export default {
       }
     },
     async share () {
+      const url = `${window.location.host}#${this.seededTorrent.magnetURI}`
       try {
-        await navigator.clipboard.writeText(this.seededTorrent.magnetURI)
+        await navigator.share(url)
+      } catch {
+        await navigator.clipboard.writeText(url)
         alert('Magnet URI written to your clipboard')
-      } catch(e) {
-        console.log(e)
       }
     },
     registerHandler () {
