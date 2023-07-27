@@ -22,5 +22,9 @@
       },
       "description": "Toggle side panel",
       "global": true
-    }
+    },
+    "permissions": [
+      "sidePanel",
+      "notifications"
+    ]
 }

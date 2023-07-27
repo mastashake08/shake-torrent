@@ -159,6 +159,11 @@ export default {
             await torrent.zip.file(file.name, blob);
             })
           })
+          chrome.notifications.create(
+
+          options: {
+          message: `${torrent.name} downloaded!`}
+        )
 
       torrent.files.forEach(torrent => {
         that.torrentFiles.push(torrent)
