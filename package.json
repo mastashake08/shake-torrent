@@ -8,7 +8,7 @@
     "lint": "vue-cli-service lint",
     "deploy": "sh scripts/gh-pages-deploy.sh",
     "pack-extension": "sh scripts/pack-chrome-extension.sh",
-    "pack-extension-mac": "sh scripts/pack-chrome-extension-mac.sh"
+    "pack-extension-mac": "sh scripts/pack-chrome-extension-mac.sh ./dist.pem"
   },
   "dependencies": {
     "browser-fs-access": "^0.34.1",
