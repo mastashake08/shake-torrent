@@ -4,7 +4,7 @@
     <h1>{{ msg }}</h1>
     <div class="seeder">
       <t-button v-if="seededTorrent.magnetURI" @click="share">Share seeded file</t-button>
-      <t-input type="file" class="btn" @change="seed"> Seed File</t-input>
+      <t-input type="file" multiple class="btn" @change="seed"> Seed File</t-input>
       <div class="files" v-if="seededTorrent.magnetURI">
         <div class="accordion" >{{seededTorrent.name}}
             <br>
@@ -112,16 +112,13 @@ export default {
     },
     seed (args) {
       try {
-        const file = args.target.files[0]
+        const files = args.target.files
         const that = this
-      that.client.seed(file, function (torrent) {
-      that.seededTorrent = torrent
-    })} catch(e) {
-
-        console.log(e.message)
-      }
-
-
+        that.client.seed(files, function (torrent) {
+          that.seededTorrent = torrent
+        })} catch(e) {
+          console.log(e.message)
+        }
     },
     async download () {
       const that = this
